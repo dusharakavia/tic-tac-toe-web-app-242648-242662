@@ -1,104 +1,224 @@
-/* CSS Variables for Theme Management */
+/* Theme (style guide)
+   - Primary: #3b82f6
+   - Secondary: #64748b
+   - Success/accent: #06b6d4
+   - Error: #EF4444
+   - Background: #f9fafb
+   - Surface: #ffffff
+   - Text: #111827
+*/
+
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --ttt-primary: #3b82f6;
+  --ttt-secondary: #64748b;
+  --ttt-accent: #06b6d4;
+  --ttt-error: #ef4444;
+
+  --ttt-bg: #f9fafb;
+  --ttt-surface: #ffffff;
+  --ttt-text: #111827;
+
+  --ttt-border: rgba(17, 24, 39, 0.12);
+  --ttt-shadow: 0 18px 55px rgba(17, 24, 39, 0.12);
+  --ttt-radius: 16px;
+
+  --ttt-cell-size: 92px;
+  --ttt-cell-radius: 14px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
+/* App shell */
 .App {
+  min-height: 100vh;
+  background: radial-gradient(
+      1100px circle at 15% 15%,
+      rgba(59, 130, 246, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px circle at 85% 20%,
+      rgba(6, 182, 212, 0.12),
+      transparent 55%
+    ),
+    var(--ttt-bg);
+  color: var(--ttt-text);
+}
+
+/* Page layout */
+.ttt-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+}
+
+/* Card */
+.ttt-card {
+  width: min(520px, 100%);
+  background: var(--ttt-surface);
+  border: 1px solid var(--ttt-border);
+  border-radius: var(--ttt-radius);
+  box-shadow: var(--ttt-shadow);
+  padding: 22px 22px 18px;
+}
+
+.ttt-header {
   text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-bottom: 18px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ttt-title {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
-
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+.ttt-status {
+  margin: 10px 0 0;
   font-size: 14px;
   font-weight: 600;
+  color: var(--ttt-secondary);
+}
+
+.ttt-status.is-winner {
+  color: var(--ttt-primary);
+}
+
+.ttt-status.is-draw {
+  color: var(--ttt-accent);
+}
+
+/* Board */
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, var(--ttt-cell-size));
+  grid-template-rows: repeat(3, var(--ttt-cell-size));
+  gap: 12px;
+  justify-content: center;
+  align-content: center;
+  padding: 10px 0 6px;
+}
+
+.ttt-cell {
+  width: var(--ttt-cell-size);
+  height: var(--ttt-cell-size);
+  border-radius: var(--ttt-cell-radius);
+  border: 1px solid var(--ttt-border);
+  background: linear-gradient(
+    180deg,
+    rgba(59, 130, 246, 0.06),
+    rgba(6, 182, 212, 0.04)
+  );
+  color: var(--ttt-text);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  display: grid;
+  place-items: center;
+
+  font-size: 40px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+
+  transition: transform 140ms ease, box-shadow 140ms ease,
+    border-color 140ms ease, background 140ms ease, opacity 140ms ease;
+  user-select: none;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.ttt-cell:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.ttt-cell:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.12);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.ttt-cell:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 3px;
+}
+
+.ttt-cell.is-filled {
+  background: #ffffff;
+}
+
+.ttt-cell.is-winning {
+  border-color: rgba(6, 182, 212, 0.65);
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.16);
+  background: linear-gradient(
+    180deg,
+    rgba(6, 182, 212, 0.16),
+    rgba(59, 130, 246, 0.10)
+  );
+}
+
+.ttt-cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+/* Controls */
+.ttt-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  padding-top: 8px;
+}
+
+.ttt-btn {
+  appearance: none;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  background: linear-gradient(135deg, var(--ttt-primary), var(--ttt-accent));
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.22);
+}
+
+.ttt-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.ttt-btn:active {
+  transform: translateY(0px);
+  opacity: 0.92;
+}
+
+.ttt-btn:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 3px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 420px) {
+  :root {
+    --ttt-cell-size: 78px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .ttt-card {
+    padding: 18px 16px 14px;
+  }
+
+  .ttt-title {
+    font-size: 24px;
+  }
+
+  .ttt-cell {
+    font-size: 36px;
   }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ttt-cell,
+  .ttt-btn {
+    transition: none;
   }
 }
